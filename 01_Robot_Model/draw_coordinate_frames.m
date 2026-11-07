@@ -1,0 +1,53 @@
+
+function draw_coordinate_frames(frames, scale)
+% ============================================================
+% DRAW LOCAL COORDINATE FRAMES
+% ============================================================
+
+if nargin < 2
+    scale = 0.08;
+end
+
+T = {
+    eye(4), ...
+    frames.T01, ...
+    frames.T02, ...
+    frames.T03
+    };
+
+labels = {'Base','Shoulder','Elbow','Wrist'};
+
+hold on;
+
+for i = 1:length(T)
+
+    R = T{i}(1:3,1:3);
+    P = T{i}(1:3,4);
+
+    % Local X axis
+    quiver3(P(1),P(2),P(3), ...
+        scale*R(1,1), ...
+        scale*R(2,1), ...
+        scale*R(3,1), ...
+        'r','LineWidth',1.5);
+
+    % Local Y axis
+    quiver3(P(1),P(2),P(3), ...
+        scale*R(1,2), ...
+        scale*R(2,2), ...
+        scale*R(3,2), ...
+        'g','LineWidth',1.5);
+
+    % Local Z axis
+    quiver3(P(1),P(2),P(3), ...
+        scale*R(1,3), ...
+        scale*R(2,3), ...
+        scale*R(3,3), ...
+        'b','LineWidth',1.5);
+
+    text(P(1),P(2),P(3), ...
+        [' ' labels{i}]);
+
+end
+
+end
